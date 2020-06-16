@@ -1,0 +1,871 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`toPortableText can control asset handling 1`] = `
+Array [
+  Object {
+    "_key": "ka3360a9",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "kd9865f3",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Hello, everyone!",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "h1",
+  },
+  Object {
+    "_key": "kbf477f7",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k9ee64b5",
+        "_type": "span",
+        "marks": Array [],
+        "text": "This is a little introduction. It's just a paragraph without any fancy stuff.",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "k3ec023b",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k77063cd",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Background",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "h2",
+  },
+  Object {
+    "_key": "kf72d303",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k1864115",
+        "_type": "span",
+        "marks": Array [],
+        "text": "When representing text with formatting (such as ",
+      },
+      Object {
+        "_key": "k972fe1e",
+        "_type": "span",
+        "marks": Array [
+          "strong",
+        ],
+        "text": "bold",
+      },
+      Object {
+        "_key": "kab7a70e",
+        "_type": "span",
+        "marks": Array [],
+        "text": ", ",
+      },
+      Object {
+        "_key": "ka074963",
+        "_type": "span",
+        "marks": Array [
+          "em",
+        ],
+        "text": "italic",
+      },
+      Object {
+        "_key": "kab7a70e",
+        "_type": "span",
+        "marks": Array [],
+        "text": ", ",
+      },
+      Object {
+        "_key": "kd3067d7",
+        "_type": "span",
+        "marks": Array [
+          "underline",
+        ],
+        "text": "underline",
+      },
+      Object {
+        "_key": "kbeb12c2",
+        "_type": "span",
+        "marks": Array [],
+        "text": " or ",
+      },
+      Object {
+        "_key": "ka1bcaba",
+        "_type": "span",
+        "marks": Array [
+          "code",
+        ],
+        "text": "code",
+      },
+      Object {
+        "_key": "ke530559",
+        "_type": "span",
+        "marks": Array [],
+        "text": "), you want to do this in a ",
+      },
+      Object {
+        "_key": "ka50426c",
+        "_type": "span",
+        "marks": Array [
+          "k933711f",
+        ],
+        "text": "platform-agnostic",
+      },
+      Object {
+        "_key": "kaebcdd6",
+        "_type": "span",
+        "marks": Array [],
+        "text": " way, so you are able to render it on any device/surface.",
+      },
+    ],
+    "markDefs": Array [
+      Object {
+        "_key": "k933711f",
+        "_type": "link",
+        "href": "https://www.techopedia.com/definition/23666/platform-agnostic",
+      },
+    ],
+    "style": "normal",
+  },
+  Object {
+    "_key": "k1380a38",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k4f7db8f",
+        "_type": "span",
+        "marks": Array [],
+        "text": "The situation gets more complex when you want to combine ",
+      },
+      Object {
+        "_key": "kafe874d",
+        "_type": "span",
+        "marks": Array [
+          "strong",
+          "em",
+          "k1c64ec3",
+        ],
+        "text": "multiple",
+      },
+      Object {
+        "_key": "kccbade6",
+        "_type": "span",
+        "marks": Array [],
+        "text": " formatting options, or when several \\"marks\\" are split ",
+      },
+      Object {
+        "_key": "k0b7a9d5",
+        "_type": "span",
+        "marks": Array [
+          "strong",
+        ],
+        "text": "across ",
+      },
+      Object {
+        "_key": "k88a89d3",
+        "_type": "span",
+        "marks": Array [
+          "strong",
+          "underline",
+        ],
+        "text": "multiple",
+      },
+      Object {
+        "_key": "k9e33411",
+        "_type": "span",
+        "marks": Array [
+          "strong",
+        ],
+        "text": " words",
+      },
+      Object {
+        "_key": "k1159efe",
+        "_type": "span",
+        "marks": Array [],
+        "text": ".",
+      },
+    ],
+    "markDefs": Array [
+      Object {
+        "_key": "k1c64ec3",
+        "_type": "link",
+        "href": "https://multiple.com/",
+      },
+    ],
+    "style": "normal",
+  },
+  Object {
+    "_key": "k9c4bf48",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k6494432",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Simple lists are supported, of course.",
+      },
+    ],
+    "level": 1,
+    "listItem": "bullet",
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "kdff0bd7",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "kb19e8e0",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Indented ones as well",
+      },
+    ],
+    "level": 2,
+    "listItem": "bullet",
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "k4606371",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k99acc14",
+        "_type": "span",
+        "marks": Array [],
+        "text": "But you can't skip levels.",
+      },
+    ],
+    "level": 3,
+    "listItem": "bullet",
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "kb2fead6",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k752af68",
+        "_type": "span",
+        "marks": Array [],
+        "text": "How these are represented in the same list is an interesting question.",
+      },
+    ],
+    "level": 1,
+    "listItem": "bullet",
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "ke2dc601",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k764d88f",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Another thing to note",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "h4",
+  },
+  Object {
+    "_key": "k8c6d45d",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k3c854a2",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Ordered lists are also a thing. I'm assuming they're implemented the same as bullet lists.",
+      },
+    ],
+    "level": 1,
+    "listItem": "number",
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "kc40fbfc",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "kc6e1ffd",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Cause that would make sense.",
+      },
+    ],
+    "level": 1,
+    "listItem": "number",
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "k7b95f4b",
+    "_type": "block",
+    "children": Array [],
+    "markDefs": Array [],
+    "style": "blockquote",
+  },
+  Object {
+    "_key": "k98232f4",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k70999b7",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Here's a reference to an entry as a block level thing:",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "k91a81f4",
+    "_ref": "beer-1572281",
+    "_type": "reference",
+  },
+  Object {
+    "_key": "k0389406",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "kaa5d1ab",
+        "_type": "span",
+        "marks": Array [],
+        "text": "And ",
+      },
+      Object {
+        "_key": "k3784a81",
+        "_type": "span",
+        "marks": Array [],
+        "text": " is an inline reference to one. Another option is to link to an ",
+      },
+      Object {
+        "_key": "k1159efe",
+        "_type": "span",
+        "marks": Array [],
+        "text": ".",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "k31f29fc",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "kcadbed3",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Here's an inline ",
+      },
+      Object {
+        "_key": "k919d6e4",
+        "_type": "span",
+        "marks": Array [
+          "strong",
+        ],
+        "text": "entry:",
+      },
+      Object {
+        "_key": "k31d2227",
+        "_type": "span",
+        "marks": Array [
+          "strong",
+        ],
+        "text": "which",
+      },
+      Object {
+        "_key": "k412fffa",
+        "_type": "span",
+        "marks": Array [],
+        "text": " is pretty cool.",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "ke111e3a",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k5733cdd",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Who would have thought you could embed assets, huh?",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "kf189343",
+    "_ref": "3LJQayn0FiaYi8K2m6KMia",
+    "_type": "reference",
+  },
+  Object {
+    "_key": "k6b36e97",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "kfc4aa99",
+        "_type": "span",
+        "marks": Array [],
+        "text": "That's it for today? I think that's all the features it supports.",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "normal",
+  },
+]
+`;
+
+exports[`toPortableText supports all features 1`] = `
+Array [
+  Object {
+    "_key": "ka3360a9",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "kd9865f3",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Hello, everyone!",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "h1",
+  },
+  Object {
+    "_key": "kbf477f7",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k9ee64b5",
+        "_type": "span",
+        "marks": Array [],
+        "text": "This is a little introduction. It's just a paragraph without any fancy stuff.",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "k3ec023b",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k77063cd",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Background",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "h2",
+  },
+  Object {
+    "_key": "kf72d303",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k1864115",
+        "_type": "span",
+        "marks": Array [],
+        "text": "When representing text with formatting (such as ",
+      },
+      Object {
+        "_key": "k972fe1e",
+        "_type": "span",
+        "marks": Array [
+          "strong",
+        ],
+        "text": "bold",
+      },
+      Object {
+        "_key": "kab7a70e",
+        "_type": "span",
+        "marks": Array [],
+        "text": ", ",
+      },
+      Object {
+        "_key": "ka074963",
+        "_type": "span",
+        "marks": Array [
+          "em",
+        ],
+        "text": "italic",
+      },
+      Object {
+        "_key": "kab7a70e",
+        "_type": "span",
+        "marks": Array [],
+        "text": ", ",
+      },
+      Object {
+        "_key": "kd3067d7",
+        "_type": "span",
+        "marks": Array [
+          "underline",
+        ],
+        "text": "underline",
+      },
+      Object {
+        "_key": "kbeb12c2",
+        "_type": "span",
+        "marks": Array [],
+        "text": " or ",
+      },
+      Object {
+        "_key": "ka1bcaba",
+        "_type": "span",
+        "marks": Array [
+          "code",
+        ],
+        "text": "code",
+      },
+      Object {
+        "_key": "ke530559",
+        "_type": "span",
+        "marks": Array [],
+        "text": "), you want to do this in a ",
+      },
+      Object {
+        "_key": "ka50426c",
+        "_type": "span",
+        "marks": Array [
+          "k933711f",
+        ],
+        "text": "platform-agnostic",
+      },
+      Object {
+        "_key": "kaebcdd6",
+        "_type": "span",
+        "marks": Array [],
+        "text": " way, so you are able to render it on any device/surface.",
+      },
+    ],
+    "markDefs": Array [
+      Object {
+        "_key": "k933711f",
+        "_type": "link",
+        "href": "https://www.techopedia.com/definition/23666/platform-agnostic",
+      },
+    ],
+    "style": "normal",
+  },
+  Object {
+    "_key": "k1380a38",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k4f7db8f",
+        "_type": "span",
+        "marks": Array [],
+        "text": "The situation gets more complex when you want to combine ",
+      },
+      Object {
+        "_key": "kafe874d",
+        "_type": "span",
+        "marks": Array [
+          "strong",
+          "em",
+          "k1c64ec3",
+        ],
+        "text": "multiple",
+      },
+      Object {
+        "_key": "kccbade6",
+        "_type": "span",
+        "marks": Array [],
+        "text": " formatting options, or when several \\"marks\\" are split ",
+      },
+      Object {
+        "_key": "k0b7a9d5",
+        "_type": "span",
+        "marks": Array [
+          "strong",
+        ],
+        "text": "across ",
+      },
+      Object {
+        "_key": "k88a89d3",
+        "_type": "span",
+        "marks": Array [
+          "strong",
+          "underline",
+        ],
+        "text": "multiple",
+      },
+      Object {
+        "_key": "k9e33411",
+        "_type": "span",
+        "marks": Array [
+          "strong",
+        ],
+        "text": " words",
+      },
+      Object {
+        "_key": "k1159efe",
+        "_type": "span",
+        "marks": Array [],
+        "text": ".",
+      },
+    ],
+    "markDefs": Array [
+      Object {
+        "_key": "k1c64ec3",
+        "_type": "link",
+        "href": "https://multiple.com/",
+      },
+    ],
+    "style": "normal",
+  },
+  Object {
+    "_key": "k9c4bf48",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k6494432",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Simple lists are supported, of course.",
+      },
+    ],
+    "level": 1,
+    "listItem": "bullet",
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "kdff0bd7",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "kb19e8e0",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Indented ones as well",
+      },
+    ],
+    "level": 2,
+    "listItem": "bullet",
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "k4606371",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k99acc14",
+        "_type": "span",
+        "marks": Array [],
+        "text": "But you can't skip levels.",
+      },
+    ],
+    "level": 3,
+    "listItem": "bullet",
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "kb2fead6",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k752af68",
+        "_type": "span",
+        "marks": Array [],
+        "text": "How these are represented in the same list is an interesting question.",
+      },
+    ],
+    "level": 1,
+    "listItem": "bullet",
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "ke2dc601",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k764d88f",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Another thing to note",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "h4",
+  },
+  Object {
+    "_key": "k8c6d45d",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k3c854a2",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Ordered lists are also a thing. I'm assuming they're implemented the same as bullet lists.",
+      },
+    ],
+    "level": 1,
+    "listItem": "number",
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "kc40fbfc",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "kc6e1ffd",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Cause that would make sense.",
+      },
+    ],
+    "level": 1,
+    "listItem": "number",
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "k7b95f4b",
+    "_type": "block",
+    "children": Array [],
+    "markDefs": Array [],
+    "style": "blockquote",
+  },
+  Object {
+    "_key": "k98232f4",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k70999b7",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Here's a reference to an entry as a block level thing:",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "k91a81f4",
+    "_ref": "beer-1572281",
+    "_type": "reference",
+  },
+  Object {
+    "_key": "k0389406",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "kaa5d1ab",
+        "_type": "span",
+        "marks": Array [],
+        "text": "And ",
+      },
+      Object {
+        "_key": "k3784a81",
+        "_type": "span",
+        "marks": Array [],
+        "text": " is an inline reference to one. Another option is to link to an ",
+      },
+      Object {
+        "_key": "k1159efe",
+        "_type": "span",
+        "marks": Array [],
+        "text": ".",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "k31f29fc",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "kcadbed3",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Here's an inline ",
+      },
+      Object {
+        "_key": "k919d6e4",
+        "_type": "span",
+        "marks": Array [
+          "strong",
+        ],
+        "text": "entry:",
+      },
+      Object {
+        "_key": "k31d2227",
+        "_type": "span",
+        "marks": Array [
+          "strong",
+        ],
+        "text": "which",
+      },
+      Object {
+        "_key": "k412fffa",
+        "_type": "span",
+        "marks": Array [],
+        "text": " is pretty cool.",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "ke111e3a",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "k5733cdd",
+        "_type": "span",
+        "marks": Array [],
+        "text": "Who would have thought you could embed assets, huh?",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "normal",
+  },
+  Object {
+    "_key": "kf189343",
+    "_ref": "3LJQayn0FiaYi8K2m6KMia",
+    "_type": "reference",
+  },
+  Object {
+    "_key": "k6b36e97",
+    "_type": "block",
+    "children": Array [
+      Object {
+        "_key": "kfc4aa99",
+        "_type": "span",
+        "marks": Array [],
+        "text": "That's it for today? I think that's all the features it supports.",
+      },
+    ],
+    "markDefs": Array [],
+    "style": "normal",
+  },
+]
+`;
