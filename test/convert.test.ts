@@ -2,6 +2,7 @@ import objectHash from 'object-hash'
 import {toPortableText, TransformOptions} from '../src'
 import {CFNode, CFAssetHyperlinkNode} from '../src/cfTypes'
 import heading from './fixtures/heading'
+import hr from './fixtures/hr'
 import marks from './fixtures/marks'
 import doubleMarks from './fixtures/doubleMarks'
 import paragraph from './fixtures/paragraph'
@@ -271,6 +272,15 @@ describe('toPortableText', () => {
   it('supports all features', () => {
     const pt = toPortableText(allFeatures, options)
     expect(pt).toMatchSnapshot()
+  })
+
+  it('hr', () => {
+    const pt = toPortableText(hr, options)
+    expect(pt).toHaveLength(1)
+    expect(pt[0]).toMatchObject({
+      _type: 'break',
+      style: 'lineBreak'
+    })
   })
 
   it('can control asset handling', () => {

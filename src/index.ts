@@ -3,11 +3,13 @@ import {
   PTBlock,
   PTMark,
   PTSpan,
+  PTBreak,
   markMapping,
   PTVirtualList,
   isPTBlockNode,
   PTListItem,
-  PTReference
+  PTReference,
+  SanitySchemaType
 } from './ptTypes'
 import {
   CFNode,
@@ -45,7 +47,7 @@ export interface TransformOptions {
 const generateKey = (node: CFNode) => node.nodeType
 const defaultTransformers: {[key: string]: Function} = {
   document,
-  hr: skip,
+  hr,
   blockquote,
   paragraph: block,
   hyperlink: link,
@@ -64,9 +66,11 @@ const defaultTransformers: {[key: string]: Function} = {
   'embedded-entry-inline': reference
 }
 
+/*
 function skip(): PTNode[] {
   return []
 }
+*/
 
 function list(
   node: CFUnorderedListNode | CFOrderedListNode,
@@ -164,6 +168,16 @@ function document(node: CFDocumentNode, options: TransformOptions): PTNode[] {
   )
 }
 
+function hr(node: CFTextNode, options: TransformOptions): PTBreak[] {
+  return [
+    {
+      _type: 'break',
+      _key: options.generateKey(node, options),
+      style: 'lineBreak'
+    }
+  ]
+}
+
 function convertSpan(node: CFTextNode, options: TransformOptions): PTSpan {
   return {
     _type: 'span',
@@ -231,6 +245,29 @@ function flatten(nodes: (PTNode | PTNode[])[]): PTNode[] {
   }
   return flat
 }
+
+// These are types that need to be included in the portable text to support all
+// features
+export const builtinTypes: SanitySchemaType[] = [
+  {
+    name: 'break',
+    type: 'object',
+    title: 'Break',
+    fields: [
+      {
+        name: 'style',
+        type: 'string',
+        title: 'Break style',
+        options: {
+          list: [
+            {title: 'Line break', value: 'lineBreak'},
+            {title: 'Read more', value: 'readMore'}
+          ]
+        }
+      }
+    ]
+  }
+]
 
 export function toPortableText(
   data: CFNode,

@@ -1,6 +1,24 @@
+export interface SanityFieldType extends Record<string, any> {
+  name: string
+  type: string
+  title?: string
+}
+
+export interface SanitySchemaType extends Record<string, any> {
+  type: 'object' | 'document'
+  name: string
+  fields: SanityFieldType[]
+}
+
 export interface PTNode {
   _type: string
   _key: string
+}
+
+export interface PTBreak extends PTNode {
+  _type: 'break'
+  _key: string
+  style: 'lineBreak' | 'readMore'
 }
 
 export interface PTSpan extends PTNode {
