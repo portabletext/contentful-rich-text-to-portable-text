@@ -7,8 +7,7 @@ import {
   PTVirtualList,
   isPTBlockNode,
   PTListItem,
-  PTReference,
-  SanitySchemaType
+  PTReference
 } from './ptTypes'
 import {
   CFNode,
@@ -40,6 +39,7 @@ export interface TransformOptions {
     'embedded-asset-block'?: Function
     'embedded-entry-block'?: Function
     'embedded-entry-inline'?: Function
+    // Allow arbitrary transformers to be passed in
     [key: string]: Function | undefined
   }
 }
@@ -233,29 +233,6 @@ function flatten(nodes: (PTNode | PTNode[])[]): PTNode[] {
   }
   return flat
 }
-
-// These are types that need to be included in the portable text to support all
-// features
-export const builtinTypes: SanitySchemaType[] = [
-  {
-    name: 'break',
-    type: 'object',
-    title: 'Break',
-    fields: [
-      {
-        name: 'style',
-        type: 'string',
-        title: 'Break style',
-        options: {
-          list: [
-            {title: 'Line break', value: 'lineBreak'},
-            {title: 'Read more', value: 'readMore'}
-          ]
-        }
-      }
-    ]
-  }
-]
 
 export function toPortableText(
   data: CFNode,
