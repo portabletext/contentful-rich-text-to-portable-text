@@ -47,7 +47,7 @@ export interface TransformOptions {
 const generateKey = (node: CFNode) => node.nodeType
 const defaultTransformers: {[key: string]: Function} = {
   document,
-  hr,
+  hr: skip,
   blockquote,
   paragraph: block,
   hyperlink: link,
@@ -66,11 +66,9 @@ const defaultTransformers: {[key: string]: Function} = {
   'embedded-entry-inline': reference
 }
 
-/*
 function skip(): PTNode[] {
   return []
 }
-*/
 
 function list(
   node: CFUnorderedListNode | CFOrderedListNode,
@@ -168,16 +166,6 @@ function document(node: CFDocumentNode, options: TransformOptions): PTNode[] {
   )
 }
 
-function hr(node: CFTextNode, options: TransformOptions): PTBreak[] {
-  return [
-    {
-      _type: 'break',
-      _key: options.generateKey(node, options),
-      style: 'lineBreak'
-    }
-  ]
-}
-
 function convertSpan(node: CFTextNode, options: TransformOptions): PTSpan {
   return {
     _type: 'span',
@@ -199,7 +187,7 @@ function convertBlock(node: CFContainerNode, options: TransformOptions): PTBlock
     if (isCFTextNode(child)) {
       children.push(convertSpan(child, options))
     } else if (transformer) {
-      console.log(transformer(child, options))
+      // console.log(transformer(child, options))
       const {nodes, markDefs} = transformer(child, options)
       children.push(...nodes)
       markDefinitions.push(...markDefs)
