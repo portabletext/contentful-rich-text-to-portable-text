@@ -3,7 +3,6 @@ import {
   PTBlock,
   PTMark,
   PTSpan,
-  PTBreak,
   markMapping,
   PTVirtualList,
   isPTBlockNode,
@@ -41,6 +40,7 @@ export interface TransformOptions {
     'embedded-asset-block'?: Function
     'embedded-entry-block'?: Function
     'embedded-entry-inline'?: Function
+    [key: string]: Function | undefined
   }
 }
 
