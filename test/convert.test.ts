@@ -1,6 +1,6 @@
 import objectHash from 'object-hash'
 import {toPortableText, TransformOptions} from '../src'
-import {CFNode, CFAssetHyperlinkNode} from '../src/cfTypes'
+import {CFNode, CFAssetHyperlinkNode, CFTextNode} from '../src/cfTypes'
 import heading from './fixtures/heading'
 import hr from './fixtures/hr'
 import marks from './fixtures/marks'
@@ -10,10 +10,12 @@ import deepList from './fixtures/deepList'
 import link from './fixtures/link'
 import list from './fixtures/list'
 import allFeatures from './fixtures/allFeatures'
-import {PTLink} from 'ptTypes'
+import {PTLink, PTObject} from 'ptTypes'
 
 const generateKey = (node: CFNode) => `k${objectHash(node).slice(0, 7)}`
-const options = {generateKey}
+const options: Partial<TransformOptions> = {
+  generateKey
+}
 
 describe('toPortableText', () => {
   it('basic h1', () => {
@@ -275,7 +277,21 @@ describe('toPortableText', () => {
   })
 
   it('hr', () => {
-    const pt = toPortableText(hr, options)
+    const pt = toPortableText(hr, {
+      ...options,
+      transformers: {
+        hr: (node: CFTextNode, options: TransformOptions): PTObject[] => {
+          return [
+            {
+              _type: 'break',
+              _key: options.generateKey(node, options),
+              style: 'lineBreak'
+            }
+          ]
+        }
+      }
+    })
+
     expect(pt).toHaveLength(1)
     expect(pt[0]).toMatchObject({
       _type: 'break',
@@ -288,7 +304,6 @@ describe('toPortableText', () => {
       ...options,
       transformers: {
         'asset-hyperlink': (node: CFAssetHyperlinkNode, options: TransformOptions): PTLink[] => {
-          const link = options.transformers.link()
           return [
             {
               _type: 'link',
