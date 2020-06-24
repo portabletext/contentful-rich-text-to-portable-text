@@ -15,12 +15,6 @@ export interface PTNode {
   _key: string
 }
 
-export interface PTBreak extends PTNode {
-  _type: 'break'
-  _key: string
-  style: 'lineBreak' | 'readMore'
-}
-
 export interface PTSpan extends PTNode {
   _type: 'span'
   _key: string
@@ -33,6 +27,8 @@ export interface PTMark extends PTNode {
   _key: string
   [key: string]: any
 }
+
+export interface PTObject extends PTMark {}
 
 export interface PTBlock extends PTNode {
   _type: 'block'
