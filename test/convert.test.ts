@@ -7,6 +7,7 @@ import hr from './fixtures/hr'
 import blockquote from './fixtures/blockquote'
 import embeddedEntryInline from './fixtures/embeddedEntryInline'
 import entryHyperlink from './fixtures/entryHyperlink'
+import assetHyperlink from './fixtures/assetHyperlink'
 //import complexBlockquote from './fixtures/complexBlockquote'
 import marks from './fixtures/marks'
 import doubleMarks from './fixtures/doubleMarks'
@@ -304,26 +305,6 @@ describe('toPortableText', () => {
     })
   })
 
-  it('can control asset handling', () => {
-    const pt = toPortableText(allFeatures, {
-      ...options,
-      transformers: {
-        'asset-hyperlink': (node: CFAssetHyperlinkNode, options: TransformOptions): PTLink[] => {
-          return [
-            {
-              _type: 'link',
-              _key: options.generateKey(node, options),
-              href: 'https://foo.bar'
-            }
-          ]
-          //const target = console.log(node, void options)
-          //return []
-        }
-      }
-    })
-    expect(pt).toMatchSnapshot()
-  })
-
   it('blockquote', () => {
     const pt = toPortableText(blockquote, options)
     expect(pt[0]).toEqual(
@@ -370,6 +351,38 @@ describe('toPortableText', () => {
         children: expect.arrayContaining([
           expect.objectContaining({_type: 'span', text: 'Here is a link to the '}),
           expect.objectContaining({_type: 'span', text: 'same editor', marks: [markDef]})
+        ])
+      })
+    )
+  })
+
+  it('asset-hyperlink', () => {
+    const pt = toPortableText(assetHyperlink, {
+      ...options,
+      referenceResolver: (node: CFAssetHyperlinkNode, options: TransformOptions) => {
+        return {
+          _type: 'reference',
+          _key: options.generateKey(node, options),
+          _sanityAsset: 'image@https://the-image-url'
+        }
+      }
+    }) as PTBlock[]
+
+    assert(pt[0].markDefs.length > 0, 'Didnt set markdefs as expected')
+    const markDef = (pt[0] as PTBlock).markDefs[0]._key
+    expect(pt[0]).toEqual(
+      expect.objectContaining({
+        _type: 'block',
+        style: 'normal',
+        markDefs: expect.arrayContaining([
+          expect.objectContaining({
+            _type: 'reference',
+            _sanityAsset: 'image@https://the-image-url'
+          })
+        ]),
+        children: expect.arrayContaining([
+          expect.objectContaining({_type: 'span', text: 'We should also support a '}),
+          expect.objectContaining({_type: 'span', text: 'link to an image', marks: [markDef]})
         ])
       })
     )

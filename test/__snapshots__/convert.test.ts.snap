@@ -356,6 +356,14 @@ Array [
         "text": "And ",
       },
       Object {
+        "_key": "k9e245a3",
+        "_type": "span",
+        "marks": Array [
+          "k93d3f81",
+        ],
+        "text": "here",
+      },
+      Object {
         "_key": "k3784a81",
         "_type": "span",
         "marks": Array [],
@@ -809,10 +817,26 @@ Array [
         "text": "And ",
       },
       Object {
+        "_key": "k9e245a3",
+        "_type": "span",
+        "marks": Array [
+          "k93d3f81",
+        ],
+        "text": "here",
+      },
+      Object {
         "_key": "k3784a81",
         "_type": "span",
         "marks": Array [],
         "text": " is an inline reference to one. Another option is to link to an ",
+      },
+      Object {
+        "_key": "kdb62a70",
+        "_type": "span",
+        "marks": Array [
+          "k68a0755",
+        ],
+        "text": "asset",
       },
       Object {
         "_key": "k1159efe",
@@ -821,7 +845,18 @@ Array [
         "text": ".",
       },
     ],
-    "markDefs": Array [],
+    "markDefs": Array [
+      Object {
+        "_key": "k93d3f81",
+        "_ref": "beer-1572281",
+        "_type": "reference",
+      },
+      Object {
+        "_key": "k68a0755",
+        "_ref": "1dLJ4l0QwoKqCSEGcEsyAm",
+        "_type": "reference",
+      },
+    ],
     "style": "normal",
   },
   Object {

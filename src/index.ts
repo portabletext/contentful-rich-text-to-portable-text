@@ -32,6 +32,7 @@ type KeyGenerator = (node: CFNode | CFContainerNode, options: TransformOptions) 
 export interface TransformOptions {
   generateKey: KeyGenerator
   depth?: number
+  referenceResolver?: Function
   transformers: {
     link?: Function
     'entry-hyperlink'?: Function
@@ -39,8 +40,7 @@ export interface TransformOptions {
     'embedded-asset-block'?: Function
     'embedded-entry-block'?: Function
     'embedded-entry-inline'?: Function
-    // Allow arbitrary transformers to be passed in
-    [key: string]: Function | undefined
+    hr?: Function
   }
 }
 
@@ -60,7 +60,7 @@ const defaultTransformers: {[key: string]: Function} = {
   'ordered-list': list,
   'unordered-list': list,
   'entry-hyperlink': entryLink,
-  'asset-hyperlink': referenceMark,
+  'asset-hyperlink': assetLink,
   'embedded-asset-block': reference,
   'embedded-entry-block': reference,
   'embedded-entry-inline': reference
@@ -128,7 +128,34 @@ function entryLink(
   options: TransformOptions
 ): {nodes: PTSpan[]; markDefs: PTMark[]} {
   const linkKey = options.generateKey(node, options)
-  const markDefs: PTMark[] = [{_type: 'reference', _key: linkKey, _ref: node.data.target.sys.id}]
+  const referenceResolver = options.referenceResolver
+  let markDefs: PTMark[]
+  if (referenceResolver) {
+    markDefs = [referenceResolver(node, options)]
+  } else {
+    markDefs = reference(node, options)
+  }
+
+  const nodes = node.content
+    .filter(isCFTextNode)
+    .map(child => convertSpan(child, options))
+    .map(span => ({...span, marks: span.marks.concat(linkKey)}))
+
+  return {nodes, markDefs}
+}
+
+function assetLink(
+  node: CFAssetHyperlinkNode,
+  options: TransformOptions
+): {nodes: PTSpan[]; markDefs: PTMark[]} {
+  const linkKey = options.generateKey(node, options)
+  const referenceResolver = options.referenceResolver
+  let markDefs: PTMark[]
+  if (referenceResolver) {
+    markDefs = [referenceResolver(node, options)]
+  } else {
+    markDefs = reference(node, options)
+  }
 
   const nodes = node.content
     .filter(isCFTextNode)
@@ -139,23 +166,29 @@ function entryLink(
 }
 
 function reference(
-  node: CFEmbeddedEntryBlockNode | CFEmbeddedEntryInlineNode,
+  node:
+    | CFEmbeddedEntryBlockNode
+    | CFEmbeddedEntryInlineNode
+    | CFAssetHyperlinkNode
+    | CFEntryHyperlinkNode,
   options: TransformOptions
 ): PTReference[] {
-  return [
-    {_type: 'reference', _key: options.generateKey(node, options), _ref: node.data.target.sys.id}
-  ]
-}
-
-function referenceMark(
-  node: CFAssetHyperlinkNode | CFEntryHyperlinkNode,
-  options: TransformOptions
-): PTReference {
-  return {
-    _type: 'reference',
-    _key: options.generateKey(node, options),
-    _ref: node.data.target.sys.id
+  if (options.referenceResolver) {
+    return [
+      {
+        _key: options.generateKey(node, options),
+        ...options.referenceResolver(node, options)
+      }
+    ]
   }
+
+  return [
+    {
+      _type: 'reference',
+      _key: options.generateKey(node, options),
+      _ref: node.data.target.sys.id
+    }
+  ]
 }
 
 function heading(node: CFHeadingNode, options: TransformOptions): PTBlock[] {
