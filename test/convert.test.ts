@@ -1,3 +1,4 @@
+import assert from 'assert'
 import objectHash from 'object-hash'
 import {toPortableText, TransformOptions} from '../src'
 import {CFNode, CFAssetHyperlinkNode, CFTextNode} from '../src/cfTypes'
@@ -5,6 +6,7 @@ import heading from './fixtures/heading'
 import hr from './fixtures/hr'
 import blockquote from './fixtures/blockquote'
 import embeddedEntryInline from './fixtures/embeddedEntryInline'
+import entryHyperlink from './fixtures/entryHyperlink'
 //import complexBlockquote from './fixtures/complexBlockquote'
 import marks from './fixtures/marks'
 import doubleMarks from './fixtures/doubleMarks'
@@ -13,7 +15,7 @@ import deepList from './fixtures/deepList'
 import link from './fixtures/link'
 import list from './fixtures/list'
 import allFeatures from './fixtures/allFeatures'
-import {PTLink, PTObject} from 'ptTypes'
+import {PTLink, PTObject, PTBlock} from 'ptTypes'
 
 const generateKey = (node: CFNode) => `k${objectHash(node).slice(0, 7)}`
 const options: Partial<TransformOptions> = {
@@ -346,6 +348,28 @@ describe('toPortableText', () => {
           expect.objectContaining({_type: 'span', text: 'Here is an Author inline: '}),
           expect.objectContaining({_type: 'reference', _ref: '264PR6TGgObfFOnSk6sJnK'}),
           expect.objectContaining({_type: 'span', text: '. Done with that.'})
+        ])
+      })
+    )
+  })
+
+  it('entry-hyperlink', () => {
+    const pt = toPortableText(entryHyperlink, options) as PTBlock[]
+    assert(pt[0].markDefs.length > 0, 'Didnt set markdefs as expected')
+    const markDef = (pt[0] as PTBlock).markDefs[0]._key
+    expect(pt[0]).toEqual(
+      expect.objectContaining({
+        _type: 'block',
+        style: 'normal',
+        markDefs: expect.arrayContaining([
+          expect.objectContaining({
+            _type: 'reference',
+            _ref: '264PR6TGgObfFOnSk6sJnK'
+          })
+        ]),
+        children: expect.arrayContaining([
+          expect.objectContaining({_type: 'span', text: 'Here is a link to the '}),
+          expect.objectContaining({_type: 'span', text: 'same editor', marks: [markDef]})
         ])
       })
     )

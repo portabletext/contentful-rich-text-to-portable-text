@@ -59,7 +59,7 @@ const defaultTransformers: {[key: string]: Function} = {
   'heading-6': heading,
   'ordered-list': list,
   'unordered-list': list,
-  'entry-hyperlink': referenceMark,
+  'entry-hyperlink': entryLink,
   'asset-hyperlink': referenceMark,
   'embedded-asset-block': reference,
   'embedded-entry-block': reference,
@@ -114,6 +114,21 @@ function link(
 ): {nodes: PTSpan[]; markDefs: PTMark[]} {
   const linkKey = options.generateKey(node, options)
   const markDefs: PTMark[] = [{_type: 'link', _key: linkKey, href: node.data.uri}]
+
+  const nodes = node.content
+    .filter(isCFTextNode)
+    .map(child => convertSpan(child, options))
+    .map(span => ({...span, marks: span.marks.concat(linkKey)}))
+
+  return {nodes, markDefs}
+}
+
+function entryLink(
+  node: CFEntryHyperlinkNode,
+  options: TransformOptions
+): {nodes: PTSpan[]; markDefs: PTMark[]} {
+  const linkKey = options.generateKey(node, options)
+  const markDefs: PTMark[] = [{_type: 'reference', _key: linkKey, _ref: node.data.target.sys.id}]
 
   const nodes = node.content
     .filter(isCFTextNode)
@@ -206,11 +221,13 @@ function convertBlock(node: CFContainerNode, options: TransformOptions): PTBlock
     } else if (transformer) {
       // Not all these transformers return the same result, should fix this.
       const result = transformer(child, options)
-      if (Array.isArray(result)) {
-        children.push(...result)
-      } else {
+      if (result.nodes) {
         children.push(...result.nodes)
         markDefinitions.push(...result.markDefs)
+      } else if (Array.isArray(result)) {
+        children.push(...result)
+      } else {
+        children.push(result)
       }
     } else {
       throw new Error(`No transformer found for node type "${child.nodeType}"`)
