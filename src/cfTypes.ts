@@ -61,6 +61,7 @@ export interface CFHorizontalRuleNode extends CFContainerNode {
 
 export interface CFBlockQuoteNode extends CFContainerNode {
   nodeType: 'blockquote'
+  content: CFContainerNode[]
 }
 
 export interface CFEmbeddedEntryBlockNode extends CFContainerNode {

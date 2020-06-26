@@ -314,7 +314,15 @@ Array [
   Object {
     "_key": "k7b95f4b",
     "_type": "block",
-    "children": Array [],
+    "children": Array [
+      Object {
+        "_key": "k2394863",
+        "_type": "span",
+        "marks": Array [],
+        "text": "It would make sense.
+- Espen",
+      },
+    ],
     "markDefs": Array [],
     "style": "blockquote",
   },
@@ -749,7 +757,15 @@ Array [
   Object {
     "_key": "k7b95f4b",
     "_type": "block",
-    "children": Array [],
+    "children": Array [
+      Object {
+        "_key": "k2394863",
+        "_type": "span",
+        "marks": Array [],
+        "text": "It would make sense.
+- Espen",
+      },
+    ],
     "markDefs": Array [],
     "style": "blockquote",
   },

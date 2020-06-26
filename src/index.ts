@@ -151,8 +151,25 @@ function heading(node: CFHeadingNode, options: TransformOptions): PTBlock[] {
 }
 
 function blockquote(node: CFBlockQuoteNode, options: TransformOptions): PTBlock[] {
-  const block = convertBlock(node, options)
-  return [{...block, style: 'blockquote'}]
+  const children: PTBlock[] = []
+  let markDefs: PTMark[] = []
+  for (let i = 0; i < node.content.length; i++) {
+    const block = convertBlock(node.content[i], options)
+    markDefs = markDefs.concat(block.markDefs)
+    children.push(block)
+  }
+
+  return [
+    {
+      _type: 'block',
+      _key: options.generateKey(node, options),
+      style: 'blockquote',
+      markDefs,
+      // We only want the childrens children (they are blocks, but we need their
+      // paragraphs etc).
+      children: flatten(children.map(c => c.children))
+    }
+  ]
 }
 
 function block(node: CFContainerNode, options: TransformOptions): PTBlock[] {

@@ -3,6 +3,8 @@ import {toPortableText, TransformOptions} from '../src'
 import {CFNode, CFAssetHyperlinkNode, CFTextNode} from '../src/cfTypes'
 import heading from './fixtures/heading'
 import hr from './fixtures/hr'
+import blockquote from './fixtures/blockquote'
+//import complexBlockquote from './fixtures/complexBlockquote'
 import marks from './fixtures/marks'
 import doubleMarks from './fixtures/doubleMarks'
 import paragraph from './fixtures/paragraph'
@@ -317,5 +319,19 @@ describe('toPortableText', () => {
       }
     })
     expect(pt).toMatchSnapshot()
+  })
+
+  it('blockquote', () => {
+    const pt = toPortableText(blockquote, options)
+    expect(pt[0]).toEqual(
+      expect.objectContaining({
+        _type: 'block',
+        style: 'blockquote',
+        children: expect.arrayContaining([
+          expect.objectContaining({_type: 'span', text: 'Fake quote'}),
+          expect.objectContaining({_type: 'span', text: '- Albert Einstein'})
+        ])
+      })
+    )
   })
 })
