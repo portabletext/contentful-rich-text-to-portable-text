@@ -362,6 +362,11 @@ Array [
         "text": " is an inline reference to one. Another option is to link to an ",
       },
       Object {
+        "_key": "k68a0755",
+        "_type": "link",
+        "href": "https://foo.bar",
+      },
+      Object {
         "_key": "k1159efe",
         "_type": "span",
         "marks": Array [],
@@ -388,6 +393,11 @@ Array [
           "strong",
         ],
         "text": "entry:",
+      },
+      Object {
+        "_key": "k004bbe0",
+        "_ref": "beer-1572281",
+        "_type": "reference",
       },
       Object {
         "_key": "k31d2227",
@@ -831,6 +841,11 @@ Array [
           "strong",
         ],
         "text": "entry:",
+      },
+      Object {
+        "_key": "k004bbe0",
+        "_ref": "beer-1572281",
+        "_type": "reference",
       },
       Object {
         "_key": "k31d2227",

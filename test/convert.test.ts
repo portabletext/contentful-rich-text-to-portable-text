@@ -4,6 +4,7 @@ import {CFNode, CFAssetHyperlinkNode, CFTextNode} from '../src/cfTypes'
 import heading from './fixtures/heading'
 import hr from './fixtures/hr'
 import blockquote from './fixtures/blockquote'
+import embeddedEntryInline from './fixtures/embeddedEntryInline'
 //import complexBlockquote from './fixtures/complexBlockquote'
 import marks from './fixtures/marks'
 import doubleMarks from './fixtures/doubleMarks'
@@ -330,6 +331,21 @@ describe('toPortableText', () => {
         children: expect.arrayContaining([
           expect.objectContaining({_type: 'span', text: 'Fake quote'}),
           expect.objectContaining({_type: 'span', text: '- Albert Einstein'})
+        ])
+      })
+    )
+  })
+
+  it('embedded-entry-inline', () => {
+    const pt = toPortableText(embeddedEntryInline, options)
+    expect(pt[0]).toEqual(
+      expect.objectContaining({
+        _type: 'block',
+        style: 'normal',
+        children: expect.arrayContaining([
+          expect.objectContaining({_type: 'span', text: 'Here is an Author inline: '}),
+          expect.objectContaining({_type: 'reference', _ref: '264PR6TGgObfFOnSk6sJnK'}),
+          expect.objectContaining({_type: 'span', text: '. Done with that.'})
         ])
       })
     )

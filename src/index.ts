@@ -204,10 +204,14 @@ function convertBlock(node: CFContainerNode, options: TransformOptions): PTBlock
     if (isCFTextNode(child)) {
       children.push(convertSpan(child, options))
     } else if (transformer) {
-      // console.log(transformer(child, options))
-      const {nodes, markDefs} = transformer(child, options)
-      children.push(...nodes)
-      markDefinitions.push(...markDefs)
+      // Not all these transformers return the same result, should fix this.
+      const result = transformer(child, options)
+      if (Array.isArray(result)) {
+        children.push(...result)
+      } else {
+        children.push(...result.nodes)
+        markDefinitions.push(...result.markDefs)
+      }
     } else {
       throw new Error(`No transformer found for node type "${child.nodeType}"`)
     }
