@@ -59,8 +59,8 @@ const defaultTransformers: {[key: string]: Function} = {
   'heading-6': heading,
   'ordered-list': list,
   'unordered-list': list,
-  'entry-hyperlink': entryLink,
-  'asset-hyperlink': assetLink,
+  'entry-hyperlink': assetOrEntryLink,
+  'asset-hyperlink': assetOrEntryLink,
   'embedded-asset-block': reference,
   'embedded-entry-block': reference,
   'embedded-entry-inline': reference
@@ -112,55 +112,32 @@ function link(
   node: CFHyperlinkNode,
   options: TransformOptions
 ): {nodes: PTSpan[]; markDefs: PTMark[]} {
-  const linkKey = options.generateKey(node, options)
+  const {nodes, linkKey} = parseLinkNode(node, options)
   const markDefs: PTMark[] = [{_type: 'link', _key: linkKey, href: node.data.uri}]
 
-  const nodes = node.content
-    .filter(isCFTextNode)
-    .map(child => convertSpan(child, options))
-    .map(span => ({...span, marks: span.marks.concat(linkKey)}))
-
   return {nodes, markDefs}
 }
 
-function entryLink(
-  node: CFEntryHyperlinkNode,
+function parseLinkNode(
+  node: CFHyperlinkNode | CFEntryHyperlinkNode | CFAssetHyperlinkNode,
   options: TransformOptions
-): {nodes: PTSpan[]; markDefs: PTMark[]} {
+): {nodes: PTSpan[]; linkKey: string} {
   const linkKey = options.generateKey(node, options)
-  const referenceResolver = options.referenceResolver
-  let markDefs: PTMark[]
-  if (referenceResolver) {
-    markDefs = [referenceResolver(node, options)]
-  } else {
-    markDefs = reference(node, options)
-  }
 
   const nodes = node.content
     .filter(isCFTextNode)
     .map(child => convertSpan(child, options))
     .map(span => ({...span, marks: span.marks.concat(linkKey)}))
 
-  return {nodes, markDefs}
+  return {nodes, linkKey}
 }
 
-function assetLink(
-  node: CFAssetHyperlinkNode,
+function assetOrEntryLink(
+  node: CFAssetHyperlinkNode | CFEntryHyperlinkNode,
   options: TransformOptions
 ): {nodes: PTSpan[]; markDefs: PTMark[]} {
-  const linkKey = options.generateKey(node, options)
-  const referenceResolver = options.referenceResolver
-  let markDefs: PTMark[]
-  if (referenceResolver) {
-    markDefs = [referenceResolver(node, options)]
-  } else {
-    markDefs = reference(node, options)
-  }
-
-  const nodes = node.content
-    .filter(isCFTextNode)
-    .map(child => convertSpan(child, options))
-    .map(span => ({...span, marks: span.marks.concat(linkKey)}))
+  const {nodes} = parseLinkNode(node, options)
+  let markDefs: PTMark[] = reference(node, options)
 
   return {nodes, markDefs}
 }
