@@ -152,12 +152,10 @@ function reference(
 ): PTReference[] {
   if (options.referenceResolver) {
     return [
-      Object.assign(
-        {
-          _key: options.generateKey(node, options)
-        },
-        options.referenceResolver(node, options)
-      )
+      {
+        _key: options.generateKey(node, options),
+        ...options.referenceResolver(node, options)
+      }
     ]
   }
 
