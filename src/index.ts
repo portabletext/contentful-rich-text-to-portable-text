@@ -136,8 +136,11 @@ function assetOrEntryLink(
   node: CFAssetHyperlinkNode | CFEntryHyperlinkNode,
   options: TransformOptions
 ): {nodes: PTSpan[]; markDefs: PTMark[]} {
-  const {nodes} = parseLinkNode(node, options)
-  let markDefs: PTMark[] = reference(node, options)
+  const {nodes, linkKey} = parseLinkNode(node, options)
+  let markDefs: PTMark[] = reference(node, {
+    ...options,
+    generateKey: () => linkKey
+  })
 
   return {nodes, markDefs}
 }
