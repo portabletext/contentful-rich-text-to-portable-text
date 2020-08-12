@@ -1,5 +1,5 @@
 {
-  "name": "contentful-rich-text-to-portable-text",
+  "name": "@portabletext/contentful-rich-text-to-portable-text",
   "version": "0.1.0",
   "license": "MIT",
   "author": "Sanity.io <hello@sanity.io>",

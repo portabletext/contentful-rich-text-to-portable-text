@@ -5,14 +5,15 @@ This package transforms data of the RichText type (used by Contentful) into a da
 ## Installation
 
 ```
-npm i contentful-rich-text-to-portable-text
+npm i @portabletext/contentful-rich-text-to-portable-text
 ```
 
 ## Examples
+
 ### Simple transformation
 
 ```
-const { toPortableText } = require('contentful-rich-text-to-portable-text')
+const { toPortableText } = require('@portabletext/contentful-rich-text-to-portable-text')
 
 const richText = {
   "nodeType": "document",
@@ -33,7 +34,7 @@ const richText = {
   ]
 })
 
- 
+
 const portableText = toPortableText(richText)
 
 // portableText is
@@ -56,8 +57,9 @@ const portableText = toPortableText(richText)
 ```
 
 ### Transformation with styling
+
 ```
-const { toPortableText } = require('contentful-rich-text-to-portable-text')
+const { toPortableText } = require('@portabletext/contentful-rich-text-to-portable-text')
 
 const richText = {
   nodeType: 'document',
@@ -127,9 +129,10 @@ const portableText = toPortableText(richText)
 ```
 
 ### Custom key generation via options.generateKey
+
 ```
 const uuid = require('uuid')
-const { toPortableText } = require('contentful-rich-text-to-portable-text')
+const { toPortableText } = require('@portabletext/contentful-rich-text-to-portable-text')
 
 const richText = {
   "nodeType": "document",
@@ -174,8 +177,9 @@ const portableText = toPortableText(richText, {
 ```
 
 ### Custom transformation of HR node via options.transformers.hr
+
 ```
-const { toPortableText } = require('contentful-rich-text-to-portable-text')
+const { toPortableText } = require('@portabletext/contentful-rich-text-to-portable-text')
 
 const richText = {
   nodeType: 'document',
@@ -263,9 +267,11 @@ const portableText = toPortableText(data, {
 ]
 
 ```
+
 ## Options
 
 To control the transformation of specific nodes you may pass in a function to handle these with these properties of `options.transformers`
+
 ```
 link?: Function
 'entry-hyperlink'?: Function
