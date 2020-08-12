@@ -32,6 +32,7 @@ type KeyGenerator = (node: CFNode | CFContainerNode, options: TransformOptions) 
 export interface TransformOptions {
   generateKey: KeyGenerator
   depth?: number
+  referenceResolver?: Function
   transformers: {
     link?: Function
     'entry-hyperlink'?: Function
@@ -39,6 +40,7 @@ export interface TransformOptions {
     'embedded-asset-block'?: Function
     'embedded-entry-block'?: Function
     'embedded-entry-inline'?: Function
+    hr?: Function
   }
 }
 
@@ -57,8 +59,8 @@ const defaultTransformers: {[key: string]: Function} = {
   'heading-6': heading,
   'ordered-list': list,
   'unordered-list': list,
-  'entry-hyperlink': referenceMark,
-  'asset-hyperlink': referenceMark,
+  'entry-hyperlink': assetOrEntryLink,
+  'asset-hyperlink': assetOrEntryLink,
   'embedded-asset-block': reference,
   'embedded-entry-block': reference,
   'embedded-entry-inline': reference
@@ -110,35 +112,60 @@ function link(
   node: CFHyperlinkNode,
   options: TransformOptions
 ): {nodes: PTSpan[]; markDefs: PTMark[]} {
-  const linkKey = options.generateKey(node, options)
+  const {nodes, linkKey} = parseLinkNode(node, options)
   const markDefs: PTMark[] = [{_type: 'link', _key: linkKey, href: node.data.uri}]
+
+  return {nodes, markDefs}
+}
+
+function parseLinkNode(
+  node: CFHyperlinkNode | CFEntryHyperlinkNode | CFAssetHyperlinkNode,
+  options: TransformOptions
+): {nodes: PTSpan[]; linkKey: string} {
+  const linkKey = options.generateKey(node, options)
 
   const nodes = node.content
     .filter(isCFTextNode)
     .map(child => convertSpan(child, options))
     .map(span => ({...span, marks: span.marks.concat(linkKey)}))
 
+  return {nodes, linkKey}
+}
+
+function assetOrEntryLink(
+  node: CFAssetHyperlinkNode | CFEntryHyperlinkNode,
+  options: TransformOptions
+): {nodes: PTSpan[]; markDefs: PTMark[]} {
+  const {nodes} = parseLinkNode(node, options)
+  let markDefs: PTMark[] = reference(node, options)
+
   return {nodes, markDefs}
 }
 
 function reference(
-  node: CFEmbeddedEntryBlockNode | CFEmbeddedEntryInlineNode,
+  node:
+    | CFEmbeddedEntryBlockNode
+    | CFEmbeddedEntryInlineNode
+    | CFAssetHyperlinkNode
+    | CFEntryHyperlinkNode,
   options: TransformOptions
 ): PTReference[] {
-  return [
-    {_type: 'reference', _key: options.generateKey(node, options), _ref: node.data.target.sys.id}
-  ]
-}
-
-function referenceMark(
-  node: CFAssetHyperlinkNode | CFEntryHyperlinkNode,
-  options: TransformOptions
-): PTReference {
-  return {
-    _type: 'reference',
-    _key: options.generateKey(node, options),
-    _ref: node.data.target.sys.id
+  if (options.referenceResolver) {
+    return [
+      {
+        _key: options.generateKey(node, options),
+        ...options.referenceResolver(node, options)
+      }
+    ]
   }
+
+  return [
+    {
+      _type: 'reference',
+      _key: options.generateKey(node, options),
+      _ref: node.data.target.sys.id
+    }
+  ]
 }
 
 function heading(node: CFHeadingNode, options: TransformOptions): PTBlock[] {
@@ -149,8 +176,25 @@ function heading(node: CFHeadingNode, options: TransformOptions): PTBlock[] {
 }
 
 function blockquote(node: CFBlockQuoteNode, options: TransformOptions): PTBlock[] {
-  const block = convertBlock(node, options)
-  return [{...block, style: 'blockquote'}]
+  const children: PTBlock[] = []
+  let markDefs: PTMark[] = []
+  for (let i = 0; i < node.content.length; i++) {
+    const block = convertBlock(node.content[i], options)
+    markDefs = markDefs.concat(block.markDefs)
+    children.push(block)
+  }
+
+  return [
+    {
+      _type: 'block',
+      _key: options.generateKey(node, options),
+      style: 'blockquote',
+      markDefs,
+      // We only want the childrens children (they are blocks, but we need their
+      // paragraphs etc).
+      children: flatten(children.map(c => c.children))
+    }
+  ]
 }
 
 function block(node: CFContainerNode, options: TransformOptions): PTBlock[] {
@@ -185,10 +229,16 @@ function convertBlock(node: CFContainerNode, options: TransformOptions): PTBlock
     if (isCFTextNode(child)) {
       children.push(convertSpan(child, options))
     } else if (transformer) {
-      console.log(transformer(child, options))
-      const {nodes, markDefs} = transformer(child, options)
-      children.push(...nodes)
-      markDefinitions.push(...markDefs)
+      // Not all these transformers return the same result, should fix this.
+      const result = transformer(child, options)
+      if (result.nodes) {
+        children.push(...result.nodes)
+        markDefinitions.push(...result.markDefs)
+      } else if (Array.isArray(result)) {
+        children.push(...result)
+      } else {
+        children.push(result)
+      }
     } else {
       throw new Error(`No transformer found for node type "${child.nodeType}"`)
     }

@@ -16,6 +16,8 @@ export interface PTMark extends PTNode {
   [key: string]: any
 }
 
+export interface PTObject extends PTMark {}
+
 export interface PTBlock extends PTNode {
   _type: 'block'
   style: string
