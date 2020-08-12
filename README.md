@@ -32,7 +32,7 @@ const richText = {
       ]
     }
   ]
-})
+}
 
 
 const portableText = toPortableText(richText)
