@@ -12,7 +12,7 @@ npm i @portabletext/contentful-rich-text-to-portable-text
 
 ### Simple transformation
 
-```
+```js
 const { toPortableText } = require('@portabletext/contentful-rich-text-to-portable-text')
 
 const richText = {
@@ -58,7 +58,7 @@ const portableText = toPortableText(richText)
 
 ### Transformation with styling
 
-```
+```js
 const { toPortableText } = require('@portabletext/contentful-rich-text-to-portable-text')
 
 const richText = {
@@ -130,7 +130,7 @@ const portableText = toPortableText(richText)
 
 ### Custom key generation via options.generateKey
 
-```
+```js
 const uuid = require('uuid')
 const { toPortableText } = require('@portabletext/contentful-rich-text-to-portable-text')
 
@@ -178,7 +178,7 @@ const portableText = toPortableText(richText, {
 
 ### Custom transformation of HR node via options.transformers.hr
 
-```
+```js
 const { toPortableText } = require('@portabletext/contentful-rich-text-to-portable-text')
 
 const richText = {
