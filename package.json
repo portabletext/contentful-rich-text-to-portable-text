@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "license": "MIT",
   "author": "Sanity.io <hello@sanity.io>",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/portabletext/contentful-rich-text-to-portable-text.git"
+  },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "module": "dist/contentful-rich-text-to-portable-text.esm.js",
