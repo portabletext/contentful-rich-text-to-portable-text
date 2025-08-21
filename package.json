@@ -21,11 +21,6 @@
     "prepare": "tsdx build",
     "release": "changeset publish"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
-  },
   "prettier": {
     "semi": false,
     "printWidth": 100,
