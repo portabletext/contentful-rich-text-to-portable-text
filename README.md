@@ -13,43 +13,40 @@ npm i @portabletext/contentful-rich-text-to-portable-text
 ### Simple transformation
 
 ```js
-const { toPortableText } = require('@portabletext/contentful-rich-text-to-portable-text')
+const {toPortableText} = require('@portabletext/contentful-rich-text-to-portable-text')
 
 const richText = {
-  "nodeType": "document",
-  "data": {},
-  "content": [
+  nodeType: 'document',
+  data: {},
+  content: [
     {
-      "nodeType": "heading-1",
-      "data": {},
-      "content": [
+      nodeType: 'heading-1',
+      data: {},
+      content: [
         {
-          "nodeType": "text",
-          "value": "Hello, everyone!",
-          "marks": [],
-          "data": {}
+          nodeType: 'text',
+          value: 'Hello, everyone!',
+          marks: [],
+          data: {}
         }
       ]
     }
   ]
 }
 
-
-const portableText = toPortableText(richText)
-
-// portableText is
-[
+const portableText = toPortableText(richText)[
+  // portableText is
   {
-    "_type": "block",
-    "_key": "heading-1",
-    "style": "h1",
-    "markDefs": [],
-    "children": [
+    _type: 'block',
+    _key: 'heading-1',
+    style: 'h1',
+    markDefs: [],
+    children: [
       {
-        "_type": "span",
-        "_key": "text",
-        "marks": [],
-        "text": "Hello, everyone!"
+        _type: 'span',
+        _key: 'text',
+        marks: [],
+        text: 'Hello, everyone!'
       }
     ]
   }
@@ -59,7 +56,7 @@ const portableText = toPortableText(richText)
 ### Transformation with styling
 
 ```js
-const { toPortableText } = require('@portabletext/contentful-rich-text-to-portable-text')
+const {toPortableText} = require('@portabletext/contentful-rich-text-to-portable-text')
 
 const richText = {
   nodeType: 'document',
@@ -92,36 +89,31 @@ const richText = {
   ]
 }
 
-const portableText = toPortableText(richText)
-// portableText is
-[
+const portableText = toPortableText(richText)[
+  // portableText is
   {
-    "_type": "block",
-    "_key": "heading-2",
-    "style": "h2",
-    "markDefs": [],
-    "children": [
+    _type: 'block',
+    _key: 'heading-2',
+    style: 'h2',
+    markDefs: [],
+    children: [
       {
-        "_type": "span",
-        "_key": "text",
-        "marks": [
-          "strong"
-        ],
-        "text": "Hello"
+        _type: 'span',
+        _key: 'text',
+        marks: ['strong'],
+        text: 'Hello'
       },
       {
-        "_type": "span",
-        "_key": "text",
-        "marks": [],
-        "text": ", "
+        _type: 'span',
+        _key: 'text',
+        marks: [],
+        text: ', '
       },
       {
-        "_type": "span",
-        "_key": "text",
-        "marks": [
-          "underline"
-        ],
-        "text": "everyone!"
+        _type: 'span',
+        _key: 'text',
+        marks: ['underline'],
+        text: 'everyone!'
       }
     ]
   }
@@ -132,21 +124,21 @@ const portableText = toPortableText(richText)
 
 ```js
 const uuid = require('uuid')
-const { toPortableText } = require('@portabletext/contentful-rich-text-to-portable-text')
+const {toPortableText} = require('@portabletext/contentful-rich-text-to-portable-text')
 
 const richText = {
-  "nodeType": "document",
-  "data": {},
-  "content": [
+  nodeType: 'document',
+  data: {},
+  content: [
     {
-      "nodeType": "heading-1",
-      "data": {},
-      "content": [
+      nodeType: 'heading-1',
+      data: {},
+      content: [
         {
-          "nodeType": "text",
-          "value": "Hello, everyone!",
-          "marks": [],
-          "data": {}
+          nodeType: 'text',
+          value: 'Hello, everyone!',
+          marks: [],
+          data: {}
         }
       ]
     }
@@ -154,22 +146,20 @@ const richText = {
 }
 
 const portableText = toPortableText(richText, {
-  generateKey: (node) => [node.nodeType, uuid()].join('-')
-})
-
-// portableText is
-[
+  generateKey: node => [node.nodeType, uuid()].join('-')
+})[
+  // portableText is
   {
-    "_type": "block",
-    "_key": "heading-1-83474017-970f-4450-b983-dc052027ef9b",
-    "style": "h1",
-    "markDefs": [],
-    "children": [
+    _type: 'block',
+    _key: 'heading-1-83474017-970f-4450-b983-dc052027ef9b',
+    style: 'h1',
+    markDefs: [],
+    children: [
       {
-        "_type": "span",
-        "_key": "text-33e92fc6-cc93-4441-8537-0eba5db9ad6a",
-        "marks": [],
-        "text": "Hello, everyone!"
+        _type: 'span',
+        _key: 'text-33e92fc6-cc93-4441-8537-0eba5db9ad6a',
+        marks: [],
+        text: 'Hello, everyone!'
       }
     ]
   }
@@ -179,19 +169,19 @@ const portableText = toPortableText(richText, {
 ### Custom transformation of HR node via options.transformers.hr
 
 ```js
-const { toPortableText } = require('@portabletext/contentful-rich-text-to-portable-text')
+const {toPortableText} = require('@portabletext/contentful-rich-text-to-portable-text')
 
 const richText = {
   nodeType: 'document',
   data: {},
   content: [
     {
-      nodeType: "heading-1",
+      nodeType: 'heading-1',
       data: {},
       content: [
         {
-          nodeType: "text",
-          value: "Hello, everyone!",
+          nodeType: 'text',
+          value: 'Hello, everyone!',
           marks: [],
           data: {}
         }
@@ -219,53 +209,50 @@ const richText = {
 
 const portableText = toPortableText(data, {
   transformers: {
-    hr: (node) => {
+    hr: node => {
       return [
         {
-          _type: "break",
-          style: "lineBreak",
-        },
-      ];
-    },
+          _type: 'break',
+          style: 'lineBreak'
+        }
+      ]
+    }
   }
-})
-
-// portableText is
-[
-  {
-    "_type": "block",
-    "_key": "heading-1",
-    "style": "h1",
-    "markDefs": [],
-    "children": [
+})[
+  // portableText is
+  ({
+    _type: 'block',
+    _key: 'heading-1',
+    style: 'h1',
+    markDefs: [],
+    children: [
       {
-        "_type": "span",
-        "_key": "text",
-        "marks": [],
-        "text": "Hello, everyone!"
+        _type: 'span',
+        _key: 'text',
+        marks: [],
+        text: 'Hello, everyone!'
       }
     ]
   },
   {
-    "_type": "break",
-    "style": "lineBreak"
+    _type: 'break',
+    style: 'lineBreak'
   },
   {
-    "_type": "block",
-    "_key": "paragraph",
-    "style": "normal",
-    "markDefs": [],
-    "children": [
+    _type: 'block',
+    _key: 'paragraph',
+    style: 'normal',
+    markDefs: [],
+    children: [
       {
-        "_type": "span",
-        "_key": "text",
-        "marks": [],
-        "text": "This is a little introduction. It's just a paragraph without any fancy stuff."
+        _type: 'span',
+        _key: 'text',
+        marks: [],
+        text: "This is a little introduction. It's just a paragraph without any fancy stuff."
       }
     ]
-  }
+  })
 ]
-
 ```
 
 ## Options
