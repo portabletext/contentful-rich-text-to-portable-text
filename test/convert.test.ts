@@ -17,6 +17,8 @@ import fourLevelList from './fixtures/fourLevelList'
 import link from './fixtures/link'
 import list from './fixtures/list'
 import allFeatures from './fixtures/allFeatures'
+import table from './fixtures/table'
+import tableWithList from './fixtures/tableWithList'
 import {PTLink, PTObject, PTBlock} from 'ptTypes'
 
 const generateKey = (node: CFNode) => `k${objectHash(node).slice(0, 7)}`
@@ -293,6 +295,100 @@ describe('toPortableText', () => {
   it('supports all features', () => {
     const pt = toPortableText(allFeatures, options)
     expect(pt).toMatchSnapshot()
+  })
+
+  it('table', () => {
+    const pt = toPortableText(table, options)
+    expect(pt).toHaveLength(1)
+    expect(pt[0]).toMatchObject({
+      _type: 'table',
+      headerRows: 1,
+      rows: [
+        {
+          _type: 'row',
+          cells: [
+            {_type: 'cell', value: [{_type: 'block', style: 'normal', children: [{text: 'Year'}]}]},
+            {_type: 'cell', value: [{_type: 'block', style: 'normal', children: [{text: 'Sales'}]}]}
+          ]
+        },
+        {
+          _type: 'row',
+          cells: [
+            {_type: 'cell', value: [{_type: 'block', children: [{text: '2022'}]}]},
+            {
+              _type: 'cell',
+              value: [
+                {_type: 'block', children: [{marks: ['strong'], text: '$8,000'}]},
+                {_type: 'block', children: [{text: 'Best year'}]}
+              ]
+            }
+          ]
+        },
+        {
+          _type: 'row',
+          cells: [
+            {_type: 'cell', value: [{_type: 'block', children: [{text: '2023'}]}]},
+            {_type: 'cell', value: [{_type: 'block', style: 'normal', children: [{text: ''}]}]}
+          ]
+        }
+      ]
+    })
+  })
+
+  it('table cell with a nested list', () => {
+    const pt = toPortableText(tableWithList, options)
+    expect(pt).toHaveLength(1)
+    expect(pt[0]).toMatchObject({
+      _type: 'table',
+      rows: [
+        {
+          _type: 'row',
+          cells: [
+            {
+              _type: 'cell',
+              value: [
+                {_type: 'block', style: 'normal', children: [{_type: 'span', text: 'Ingredients'}]},
+                {
+                  _type: 'block',
+                  listItem: 'bullet',
+                  level: 1,
+                  children: [{_type: 'span', text: 'Flour'}]
+                },
+                {
+                  _type: 'block',
+                  listItem: 'number',
+                  level: 2,
+                  children: [{_type: 'span', text: 'Sifted'}]
+                },
+                {
+                  _type: 'block',
+                  listItem: 'bullet',
+                  level: 3,
+                  children: [{_type: 'span', text: 'Twice'}]
+                },
+                {
+                  _type: 'block',
+                  listItem: 'bullet',
+                  level: 1,
+                  children: [{_type: 'span', text: 'Sugar'}]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    })
+    expect((pt[0] as any).rows[0].cells[0].value).toHaveLength(5)
+    expect((pt[0] as any).rows[0].cells[0].value[0]).not.toHaveProperty('listItem')
+  })
+
+  it('table without header cells has no headerRows', () => {
+    const bodyOnly = {
+      ...table,
+      content: [{...table.content[0], content: table.content[0].content.slice(1)}]
+    }
+    const pt = toPortableText(bodyOnly, options)
+    expect(pt[0]).not.toHaveProperty('headerRows')
   })
 
   it('hr', () => {

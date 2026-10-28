@@ -7,7 +7,10 @@ import {
   PTVirtualList,
   isPTBlockNode,
   PTListItem,
-  PTReference
+  PTReference,
+  PTTable,
+  PTTableCell,
+  PTTableRow
 } from './ptTypes'
 import {
   CFNode,
@@ -24,7 +27,8 @@ import {
   CFEmbeddedEntryBlockNode,
   CFEmbeddedEntryInlineNode,
   CFAssetHyperlinkNode,
-  CFEntryHyperlinkNode
+  CFEntryHyperlinkNode,
+  CFTableNode
 } from './cfTypes'
 
 type KeyGenerator = (node: CFNode | CFContainerNode, options: TransformOptions) => string
@@ -41,6 +45,7 @@ export interface TransformOptions {
     'embedded-entry-block'?: Function
     'embedded-entry-inline'?: Function
     hr?: Function
+    table?: Function
   }
 }
 
@@ -63,7 +68,8 @@ const defaultTransformers: {[key: string]: Function} = {
   'asset-hyperlink': assetOrEntryLink,
   'embedded-asset-block': reference,
   'embedded-entry-block': reference,
-  'embedded-entry-inline': reference
+  'embedded-entry-inline': reference,
+  table
 }
 
 function skip(): PTNode[] {
@@ -86,7 +92,7 @@ function list(
     children: children.reduce((acc, group) => [...acc, ...group], [])
   }
 
-  return !parent || parent.nodeType === 'document' ? flattenList(listNode) : [listNode]
+  return isListRoot(parent) ? flattenList(listNode) : [listNode]
 }
 
 function listItem(
@@ -166,6 +172,73 @@ function reference(
       _ref: node.data.target.sys.id
     }
   ]
+}
+
+/**
+ * Converts a table into the nested shape `@portabletext/plugin-table` edits:
+ * a `table` block carrying `rows`, each row carrying `cells`, each cell
+ * carrying its paragraphs and lists as Portable Text blocks in `value`.
+ * Leading rows of header cells are counted in `headerRows`. `colspan` and
+ * `rowspan` are ignored, so rows shorter than the widest row are padded with
+ * empty cells.
+ */
+function table(node: CFTableNode, options: TransformOptions): PTTable[] {
+  if (node.content.length === 0) {
+    return []
+  }
+
+  let headerRows = 0
+  for (let i = 0; i < node.content.length; i++) {
+    const cells = node.content[i].content
+    if (cells.length > 0 && cells.every(cell => cell.nodeType === 'table-header-cell')) {
+      headerRows++
+    } else {
+      break
+    }
+  }
+
+  const widestRow = Math.max(...node.content.map(row => row.content.length))
+
+  const rows: PTTableRow[] = node.content.map(row => {
+    const rowKey = options.generateKey(row, options)
+    const cells: PTTableCell[] = []
+    for (let column = 0; column < widestRow; column++) {
+      const cell = row.content[column]
+      if (cell) {
+        cells.push({
+          _type: 'cell',
+          _key: options.generateKey(cell, options),
+          value: flatten(
+            cell.content.map(child => toPortableText(child, {...options, depth: 0}, cell))
+          )
+        })
+      } else {
+        cells.push(emptyCell(`${rowKey}-${column}`))
+      }
+    }
+    return {_type: 'row', _key: rowKey, cells}
+  })
+
+  return [
+    {
+      _type: 'table',
+      _key: options.generateKey(node, options),
+      ...(headerRows > 0 ? {headerRows} : {}),
+      rows
+    }
+  ]
+}
+
+function emptyCell(key: string): PTTableCell {
+  const span: PTSpan = {_type: 'span', _key: `${key}-span`, marks: [], text: ''}
+  const block: PTBlock = {
+    _type: 'block',
+    _key: `${key}-block`,
+    style: 'normal',
+    markDefs: [],
+    children: [span]
+  }
+  return {_type: 'cell', _key: key, value: [block]}
 }
 
 function heading(node: CFHeadingNode, options: TransformOptions): PTBlock[] {
@@ -251,6 +324,15 @@ function convertBlock(node: CFContainerNode, options: TransformOptions): PTBlock
     markDefs: markDefinitions,
     children
   }
+}
+
+function isListRoot(parent?: CFNode): boolean {
+  return (
+    !parent ||
+    parent.nodeType === 'document' ||
+    parent.nodeType === 'table-cell' ||
+    parent.nodeType === 'table-header-cell'
+  )
 }
 
 function flattenList(list: PTVirtualList): PTNode[] {

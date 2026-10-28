@@ -85,6 +85,25 @@ export interface CFEmbeddedAssetBlockNode extends CFContainerNode {
   }
 }
 
+export interface CFTableCellNode extends CFContainerNode {
+  nodeType: 'table-cell' | 'table-header-cell'
+  data: {
+    colspan?: number
+    rowspan?: number
+  }
+  content: (CFParagraphNode | CFUnorderedListNode | CFOrderedListNode)[]
+}
+
+export interface CFTableRowNode extends CFContainerNode {
+  nodeType: 'table-row'
+  content: CFTableCellNode[]
+}
+
+export interface CFTableNode extends CFContainerNode {
+  nodeType: 'table'
+  content: CFTableRowNode[]
+}
+
 export interface CFEntryReference {
   sys: {
     id: string
