@@ -254,7 +254,11 @@ function convertBlock(node: CFContainerNode, options: TransformOptions): PTBlock
 }
 
 function flattenList(list: PTVirtualList): PTNode[] {
-  return list.children.map(child => (isVirtualList(child) ? flattenList(child) : child)) as PTNode[]
+  return list.children.reduce<PTNode[]>(
+    (nodes, child) =>
+      isVirtualList(child) ? [...nodes, ...flattenList(child)] : [...nodes, child],
+    []
+  )
 }
 
 function isVirtualList(node: PTNode): node is PTVirtualList {

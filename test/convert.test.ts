@@ -13,6 +13,7 @@ import marks from './fixtures/marks'
 import doubleMarks from './fixtures/doubleMarks'
 import paragraph from './fixtures/paragraph'
 import deepList from './fixtures/deepList'
+import fourLevelList from './fixtures/fourLevelList'
 import link from './fixtures/link'
 import list from './fixtures/list'
 import allFeatures from './fixtures/allFeatures'
@@ -275,6 +276,18 @@ describe('toPortableText', () => {
         }
       ]
     })
+  })
+
+  it('lists nested four levels deep', () => {
+    const pt = toPortableText(fourLevelList, options)
+    expect(pt).toMatchObject([
+      {_type: 'block', listItem: 'bullet', level: 1, children: [{text: 'One'}]},
+      {_type: 'block', listItem: 'number', level: 2, children: [{text: 'Two'}]},
+      {_type: 'block', listItem: 'bullet', level: 3, children: [{text: 'Three'}]},
+      {_type: 'block', listItem: 'number', level: 4, children: [{text: 'Four'}]},
+      {_type: 'block', listItem: 'bullet', level: 1, children: [{text: 'Back to one'}]}
+    ])
+    expect(pt).toHaveLength(5)
   })
 
   it('supports all features', () => {
