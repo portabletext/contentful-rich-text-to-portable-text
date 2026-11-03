@@ -50,6 +50,22 @@ export interface PTReference extends PTNode {
   _weak?: boolean
 }
 
+export interface PTTableCell extends PTNode {
+  _type: 'cell'
+  value: PTNode[]
+}
+
+export interface PTTableRow extends PTNode {
+  _type: 'row'
+  cells: PTTableCell[]
+}
+
+export interface PTTable extends PTNode {
+  _type: 'table'
+  headerRows?: number
+  rows: PTTableRow[]
+}
+
 export const markMapping: {[key: string]: string} = {
   bold: 'strong',
   italic: 'em'

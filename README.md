@@ -267,13 +267,50 @@ link?: Function
 'embedded-entry-block'?: Function
 'embedded-entry-inline'?: Function
 hr?: Function
+table?: Function
 ```
 
 Custom key generation is a function passed as `options.generateKey` which is expected to return a `string`.
 
+## Tables
+
+Tables convert to the nested shape `@portabletext/plugin-table` edits: a `table` block with `rows`, each row with `cells`, each cell with its paragraphs and lists as Portable Text blocks in `value`. A list in a cell becomes list blocks with `level` counted from 1 inside the cell. Leading rows made up only of header cells are counted in `headerRows`.
+
+```js
+{
+  _type: 'table',
+  _key: 'table',
+  headerRows: 1,
+  rows: [
+    {
+      _type: 'row',
+      _key: 'table-row',
+      cells: [
+        {
+          _type: 'cell',
+          _key: 'table-header-cell',
+          value: [
+            {
+              _type: 'block',
+              _key: 'paragraph',
+              style: 'normal',
+              markDefs: [],
+              children: [{_type: 'span', _key: 'text', marks: [], text: 'Year'}]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+Your schema needs to declare this shape. See the `@portabletext/plugin-table` README for the schema definition.
+
 ## Caveats
 
 - You will need to specify your own serialization for HR tags. See examples.
+- Table cells don't carry `colspan` or `rowspan`. A spanning cell becomes one cell, and rows shorter than the widest row are padded with empty cells.
 - Blockquotes in RichText and PortableText do not currently map directly. You may lose newlines in this step and you should verify the output and make any needed adjustments.
 
 ## License
